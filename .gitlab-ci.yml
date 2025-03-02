@@ -1,0 +1,39 @@
+default:
+  tags:
+    - g3
+
+stages:
+  - build
+  - deploy
+  - test
+
+variables:
+  GIT_STRATEGY: clone
+  DOCKER_HOST: tcp://192.168.5.93:2375
+
+#unit_test
+
+build_pay_frontend:
+  stage: build
+  script:
+    - docker ps
+    - docker build -t pay-frontend ./
+    - docker system prune -f
+  only:
+    - dev
+
+#scan_sonra_qube
+
+deploy_pay_frontend:
+  stage: deploy
+  script:
+    - docker compose up -d
+  only:
+    - dev
+
+# cypress_run_test:
+#   stage: test
+#   script:
+#     - "curl -X POST --fail -F token=glptt-df5622736635014e367bc074153a6413bc71b008 -F ref=develop https://gitlab.com/api/v4/projects/61954788/trigger/pipeline"
+#   only:
+#     - dev

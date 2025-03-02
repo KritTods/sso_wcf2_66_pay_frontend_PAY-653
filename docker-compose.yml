@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  pay-web:
+    container_name: pay-frontend
+    image: pay-frontend
+    build: .
+    ports:
+      - '3001:3000'
+    networks:
+      - web-network
+    restart: unless-stopped
+
+networks:
+  web-network:
+    external: true
